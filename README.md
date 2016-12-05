@@ -1,1 +1,1 @@
-# TaskAssistantv1
+# TaskAssistant app
