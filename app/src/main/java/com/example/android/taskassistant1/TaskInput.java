@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public class TaskInput extends AppCompatActivity {
-Toolbar mToolbar;
     String title,note;
     EditText title12,note12;
 
@@ -18,22 +19,25 @@ Toolbar mToolbar;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_input);
-        mToolbar = (Toolbar)findViewById(R.id.toolbar1);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        mToolbar.setNavigationIcon(R.drawable.ic_close_black_24dp);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        getSupportActionBar().setTitle("Task");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        //sets the toolbar as action bar
+        setSupportActionBar(toolbar);
 
 
-        //For Toolbar (Action bar) end
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appnav,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+                if(id==R.id.done) {
+                    next(null);
+                }
+        return super.onOptionsItemSelected(item);
     }
     public void next(View view) {
 
