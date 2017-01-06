@@ -6,16 +6,35 @@ package com.example.android.taskassistant1;
 
 public class tasklist
 {
+    private int _id;
     private  String taskTitle;
-    tasklist(String tt)
-    {
-        if(tt!=null)
-        {
-        taskTitle=tt;
-    }}
-    public String gettitle()
-    {
+
+
+        public  tasklist(){
+
+        }
+    public  tasklist(String tasktitle) {
+        if(tasktitle!=null) {
+            this.taskTitle=tasktitle;
+        }}
+    public void setTaskTitle(String taskTitle) {
+        this.taskTitle = taskTitle;
+    }
+
+
+
+    public void set_id(int _id) {
+        this._id = _id;
+    }
+
+    public int get_id() {
+        return _id;
+    }
+
+    public String gettitle() {
         return taskTitle;
     }
+
+
 
 }

@@ -1,11 +1,13 @@
 package com.example.android.taskassistant1;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,8 +17,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,29 +31,57 @@ import static com.example.android.taskassistant1.R.id.title;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-  public  ArrayList<tasklist> tasks= new ArrayList<tasklist>();
     String title,note;
+    ListView listView;
+    taskadapter adapter;
+    public  ArrayList<tasklist> tasks= new ArrayList<tasklist>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent2 = getIntent();
-
-        Bundle b = intent2.getExtras();
-        if(b!=null) {
-            title = b.getString("title");
-            note = b.getString("note");
-            tasks.add(new tasklist(title));
-        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        tasks.add(new tasklist("Foc Exam"));
+        final dataBaseHandler dataBaseHandle = new dataBaseHandler(this,null,null,1);
 
-
-        taskadapter adapter = new taskadapter(MainActivity.this,tasks);
-        ListView listView = (ListView) findViewById(R.id.list);
+        tasks=dataBaseHandle.dataToTaskList();
+        adapter = new taskadapter(MainActivity.this,tasks);
+        listView = (ListView) findViewById(R.id.list);
+        listView.setLongClickable(true);
         listView.setAdapter(adapter);
+        listView.setOnItemLongClickListener(new  AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position,long id) {
+              tasklist  task =adapter.getItem(position);
+                String taskName =task.gettitle();
+                adapter.remove(task);
+
+                dataBaseHandle.deleteTask(taskName);
+                adapter.notifyDataSetChanged();
+
+
+
+
+
+
+                return true;
+            }
+        });
+
+
+
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+//                //Your code
+//                Toast.makeText(MainActivity.this, "List View row Clicked at"+position,Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//        });
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

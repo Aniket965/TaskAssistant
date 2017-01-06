@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class TaskInput extends AppCompatActivity {
+    dataBaseHandler dataBaseHandle = new dataBaseHandler(this,null,null,1);
     String title,note;
     EditText title12,note12;
 
@@ -71,16 +72,19 @@ public class TaskInput extends AppCompatActivity {
 
 
         Intent intent = new Intent(TaskInput.this,MainActivity.class);
-        //Create a bundle object
-        Bundle b = new Bundle();
+        tasklist task = new tasklist(title);
+        dataBaseHandle.addTask(task);
 
-        //Inserts a String value into the mapping of this Bundle
-        b.putString("title",title12.getText().toString());
-        b.putString("note",note12.getText().toString());
-
-
-        //Add the bundle to the intent.
-        intent.putExtras(b);
+//        //Create a bundle object
+//        Bundle b = new Bundle();
+//
+//        //Inserts a String value into the mapping of this Bundle
+//        b.putString("title",title12.getText().toString());
+//        b.putString("note",note12.getText().toString());
+//
+//
+//        //Add the bundle to the intent.
+//        intent.putExtras(b);
         startActivity(intent);
 
     }
